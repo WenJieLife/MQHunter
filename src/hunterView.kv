@@ -1,0 +1,129 @@
+#:kivy 2.0.0
+
+<mqHunter>:
+    name: 'MQTT Hunter'
+    BoxLayout:
+        orientation: 'horizontal'
+        canvas.before:
+            Color:
+                rgb: .6, .6, .6
+            Rectangle:
+                size: self.size
+                source: './background.png'
+        BoxLayout:
+            size_hint_x: .3 #30% of full screen
+            FloatLayout:
+                canvas.before:
+                    Color:
+                        rgba: rgba("#1E90FF") #https://www.sioe.cn/yingyong/yanse-rgb-16/
+                    Rectangle:
+                        size: self.size
+                Image:
+                    source: './MQH.png'
+                    mipmap: True
+                    size_hint_y: 1
+                    width: root.width*0.1
+                Label:
+                    id: Software_Name
+                    size_hint_y: .45
+                    font_size: 26
+                    text: root.name
+                Label:
+                    id: Software_Version
+                    size_hint_y: .06
+                    font_size: 15
+
+                    text: root.get_version()
+        BoxLayout:
+            id: connect_manager
+            orientation: 'vertical'
+            GridLayout:
+                padding: 1 #外框间距
+                spacing: 1 #子成员间距
+                size_hint_y: 1
+                cols: 1
+                row_force_default: True #强制启用默认值
+                row_default_height: 41#默认高度
+
+                BoxLayout:
+                    Label:
+                        size_hint_x: .13
+                        text: 'Host'
+                    Inp:
+                        id: HOST
+                        hint_text: ' Please enter the IP address '
+                        text: '127.0.0.1'
+                BoxLayout:
+                    Label:
+                        size_hint_x: .13
+                        text: 'Port'
+                    Inp:
+                        id: PORT
+                        hint_text: ' Please enter the Port number '
+                        text: '1883'
+                BoxLayout:
+                    Label:
+                        size_hint_x: .13
+                        text: 'Topic'
+                    Inp:
+                        id: TOPIC
+                        hint_text: ' Please enter the mqtt Topic name '
+                        text: 'Device-push-topic/02'
+                BoxLayout:
+                    Label:
+                        size_hint_x: .13
+                        text: 'Qos'
+                    Inp:
+                        id: QOS
+                        hint_text: ' Please enter the message reliability level '
+                        text: '0'
+                BoxLayout:
+                    Label:
+                        size_hint_x: .13
+                        text: 'Username'
+                    Inp:
+                        id: U
+                        hint_text: ' mqtt username, Not required '
+                BoxLayout:
+                    Label:
+                        size_hint_x: .13
+                        text: 'Password'
+                    Inp:
+                        id: P
+                        hint_text: ' mqtt password, Not required '
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Btn:
+                        color: rgba("#87CEFA")
+                        text: 'Connect' if not root.connect_status else 'Close the connection'
+                        background_color: 0.1,0.75,0.95,1
+                        on_press: root.connect_mq_btn()
+                        #on_release
+                    Btn:
+                        color: rgba("#DAA520")
+                        text: 'Clear'
+                        background_color: 0.1,0.75,0.95,1
+                        on_press: root.clear_btn()
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: .22
+                    text: ' Console'
+                    font_size: '18sp'
+                    #halign: 'left'
+                    text_size: self.size
+                    #valign: 'middle'
+                Inp:
+                    id: console
+                    hint_text: '---log---'
+
+<Inp@TextInput>:
+    #background_color:  1, 1, 1, 1
+    border: 5,5,5,5
+    font_size: 16
+    padding: 6,10
+    #halign: 'left' # or set padding_x: '8dp'
+    multiline: False
+<Btn@Button>:
+    #background_color:  0.3,0.1,0.4,1
+    border: (-10,16,16,16)
